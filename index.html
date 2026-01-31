@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CEDex: Cross-Embodiment Dexterous Grasp Generation at Scale from Human Contact Representations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* 基础样式 */
+    body {
+      margin: 20px;
+      background-color: white;
+      color: black !important;
+    }
+    .hero { margin-bottom: 0px; }
+    .section {
+      margin-top: 0px;     /* 缩小距离 */
+      margin-bottom: 0px;  /* 缩小距离 */
+    }
+
+    /* 统一固定宽度容器：默认 800px，可通过 --w 覆盖 */
+    .fixed-container {
+      width: min(100%, var(--w, 800px));
+      margin: 0 auto;
+    }
+    .centered { text-align: center; }
+
+    /* 标题样式 */
+    h1 {
+      color: black !important;
+      margin: 0;
+      font-size: 3em !important;
+      font-weight: bold !important;
+      text-align: center;
+    }
+    h2 {
+      font-size: 2em !important;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+      color: black !important;
+    }
+
+    /* 文本与媒体 */
+    p {
+      margin: 0 auto;
+      text-align: justify;
+      font-size: 1em;
+    }
+    figure {
+      margin: 0 auto;
+      text-align: center;
+    }
+    figcaption {
+      font-style: normal;
+      font-size: 1em;
+      text-align: justify;
+    }
+    img, video {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* 视频边框样式与居中容器 */
+    .video-container { display: flex; justify-content: center; }
+    video {
+      border: 8px solid lightblue;
+      border-radius: 8px;
+      padding: 5px;
+    }
+
+    strong { color: black !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Title Section（示例：1100px） -->
+  <section class="hero" style="margin-bottom: -60px;">
+    <div class="hero-body">
+      <div class="fixed-container centered" style="--w: 1100px;">
+        <h1 class="title">
+          UniMorphGrasp: Diffusion Model with Morphology-Awareness for Cross-Embodiment Dexterous Grasp Generation
+        </h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Authors Section（默认 800px） -->
+  <section class="section" style="margin-bottom: -60px;">
+    <div class="fixed-container centered" style="--w: 1100px;">
+      <div class="is-size-5 publication-authors" style="color: black !important;">
+        <span class="author-block">
+          <a href="https://georgewuzy.github.io/" style="color: #4A90E2 !important;">Zhiyuan Wu</a><sup>1</sup>,
+        </span>
+        <span class="author-block">
+          <a href="https://orcid.org/0009-0000-8690-514X" style="color: #4A90E2 !important;">Xiangyu Zhang</a><sup>1</sup>,
+        </span>
+        <span class="author-block">
+          <a href="https://zhuochenn.github.io/" style="color: #4A90E2 !important;">Zhuo Chen</a><sup>1</sup>,
+        </span>
+        <span class="author-block">
+          <a href="https://jiankangdeng.github.io/" style="color: #4A90E2 !important;">Jiankang Deng</a><sup>2</sup>,
+        </span>
+        <span class="author-block">
+          <a href="https://rolpotamias.github.io/" style="color: #4A90E2 !important;">Rolandos Alexandros Potamias</a><sup>2, ✉</sup>,
+        </span>
+        <span class="author-block">
+          <a href="https://shanluo.github.io/" style="color: #4A90E2 !important;">Shan Luo</a><sup>1, ✉</sup>
+        </span>
+      </div>
+
+      <div class="is-size-5 publication-authors" style="color: black !important;">
+        <span class="author-block"><sup>1</sup>King's College London,</span>
+        <span class="author-block"><sup>2</sup>Imperial College London,</span>
+        <span class="author-block"><sup>✉</sup>Corresponding Authors</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publication Links Section（默认 800px） -->
+  <section class="section" style="margin-bottom: -50px;">
+    <div class="fixed-container centered">
+      <div class="publication-links">
+        <span class="link-block">
+          <a href="" class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <i class="fas fa-file-pdf"></i>
+            </span>
+            <span>Paper</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="" class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+            <span>Code</span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Video Section（示例：900px） -->
+  <section class="section">
+    <div class="fixed-container centered" style="--w: 900px;">
+      <div class="video-container">
+        <video controls style="width: 100%;">
+          <source src="figs/demo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract Section（默认 800px） -->
+  <section class="section">
+    <div class="fixed-container centered">
+      <h2 class="title is-3">Abstract</h2>
+      <p>
+        Cross-embodiment dexterous grasping aims to generate stable and diverse grasps for robotic hands with heterogeneous kinematic structures. Existing methods are often tailored to specific hand designs and fail to generalize to unseen hand morphologies outside the training distribution. To address these limitations, we propose \textbf{UniMorphGrasp}, a diffusion-based framework that incorporates hand morphological information into the grasp generation process for unified cross-embodiment grasp synthesis. The proposed approach maps grasps from diverse robotic hands into a unified human-like canonical hand pose representation, providing a common space for learning. Grasp generation is then conditioned on structured representations of hand kinematics, encoded as graphs derived from hand configurations, together with object geometry. In addition, a loss function is introduced that exploits the hierarchical organization of hand kinematics to guide joint-level supervision. Extensive experiments demonstrate that UniMorphGrasp achieves state-of-the-art performance on existing dexterous grasp benchmarks and exhibits strong zero-shot generalization to previously unseen hand structures, enabling scalable and practical cross-embodiment grasp deployment. 
+      </p>
+    </div>
+  </section>
+
+  <!-- Pipeline Overview Section（默认 800px） -->
+  <section class="section">
+    <div class="fixed-container centered">
+      <h2 class="title is-3">Pipeline Overview</h2>
+      <figure>
+        <img src="figs/pipeline.png" alt="UniMorphGrasp Pipeline">
+        <figcaption style="text-align: center;">
+          <span style="color: #4A90E2; font-weight: bold;">(Left)</span> The overview of our proposed UniMorphGrasp for cross-embodiment dexterous grasp generation. Given an object point cloud and an arbitrary hand morphology extracted from its URDF specification (mapped to a pre-defined canonical hand format), we employ a morphology encoder to extract morphology representations from the hand's joint structure. The hand pose (noised via a diffusion scheduler in training) is embedded through a linear layer, and concatenated with its active joint mask embedding to obtain the hand representation. This representation is then processed through a morphology-aware denoising model, where the iterative process is conditioned on both the morphology representation and the point cloud representation extracted via a Point Transformer. The entire framework is trained using a morphology-aware loss function. <span style="color: #4A90E2; font-weight: bold;">(Right)</span> The structure of our morphology-aware denoising model, which is conditioned on the encoded morphology and the point cloud representations via cross-attention.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+  
+<section class="section">
+    <div class="fixed-container centered">
+      <h2 class="title is-3">Method Performance</h2>
+      
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/multidex.gif" alt="MultiDex Performance" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          UniMorphGrasp can generate stable and diverse grasps for cross-embodiment dexterous hands.
+        </figcaption>
+      </figure>
+
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/more_multidex.gif" alt="More MultiDex Results" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          More results generated by our UniMorphGrasp on the MultiDex dataset.
+        </figcaption>
+      </figure>
+
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/quantitative1.png" alt="Quantitative Results 1" style="width: 100%;">
+        <figcaption style="text-align: justify; margin-top: 10px;">
+          Quantitative comparison of our UniMorphGrasp (w/. and w/o. the morphology-aware loss) with different cross-embodiment dexterous grasp synthesis baselines across three robotic hands from three to five fingers: Barrett, Allegro, and Shadow hand.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="figs/qualitative.gif" alt="Qualitative Comparison" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          Qualitative comparison with baselines 1) GenDexGrasp and 2) DRO-Grasp, where our results demonstrate superior surface conformity and stable form-closure.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="fixed-container centered">
+      <h2 class="title is-3">Zero-Shot Generalization to Novel Hand Morphologies</h2>
+
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/generalization1.gif" alt="Generalization 1" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          <span style="color: #0070C0; font-weight: bold;">Topological Variations</span>: We selectively remove fingers of the Shadow hand.
+        </figcaption>
+      </figure>
+
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/generalization2.gif" alt="Generalization 2" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          <span style="color: #0070C0; font-weight: bold;">Geometrical Variations</span>: We scale the finger lengths by factors of 1.5× (lengthened).
+        </figcaption>
+      </figure>
+
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/generalization3.gif" alt="Generalization 3" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          <span style="color: #0070C0; font-weight: bold;">Geometrical Variations</span>: We scale the finger lengths by factors of 0.8× (shortened).
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="figs/generalization4.gif" alt="Generalization 4" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          <span style="color: #0070C0; font-weight: bold;">Embodiment Variations</span>: We replace Shadow Hand fingers with Allegro Hand fingers to introduce embodiment changes in joint axis, joint limits, and link geometries.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="fixed-container centered">
+      <h2 class="title is-3">Cross-Dataset Results</h2>
+      <p style="margin-bottom: 20px; text-align: center;">
+        We conduct <span style="color: #0070C0; font-weight: bold;">cross-dataset evaluations</span> on the Multi-GraspLLM and Objaverse datasets to evaluate the zero-shot generalization capability of our model.
+      </p>
+
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/multi-graspllm.gif" alt="Multi GraspLLM" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          Visualizations of cross-embodiment grasps synthesized by UniMorphGrasp on the Multi-GraspLLM dataset.
+        </figcaption>
+      </figure>
+
+      <figure style="margin-bottom: 30px;">
+        <img src="figs/objaverse.gif" alt="Objaverse Results" style="width: 100%;">
+        <figcaption style="text-align: center; margin-top: 10px;">
+          Visualizations of cross-embodiment grasps synthesized by UniMorphGrasp on the Objaverse dataset.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="figs/quantitative2.png" alt="Quantitative Results 2" style="width: 100%;">
+        <figcaption style="text-align: justify; margin-top: 10px;">
+          Cross-dataset zero-shot generalization results. We evaluate models trained on MultiDex directly on unseen datasets: Multi-GraspLLM and Objaverse.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" style="margin-bottom: 40px;">
+    <div class="fixed-container centered">
+      <h2 class="title is-3">Real-World Experiments</h2>
+      <p style="margin-bottom: 20px; text-align: center;">
+        We validate UniMorphGrasp in real-world scenarios using a UR5e arm equipped with a Leap Hand.
+      </p>
+
+      <div style="margin-bottom: 30px;">
+        <img src="figs/real-world1.gif" alt="Real World 1" style="width: 100%; margin-bottom: 10px;">
+        <img src="figs/real-world2.gif" alt="Real World 2" style="width: 100%;">
+        <p style="text-align: center; margin-top: 10px; font-style: normal;">
+          Real-world grasping demonstrations on the Leap Hand.
+        </p>
+      </div>
+
+      <figure>
+        <img src="figs/quantitative3.png" alt="Quantitative Results 3" style="width: 100%;">
+        <figcaption style="text-align: justify; margin-top: 10px;">
+          Quantitative real-world evaluation on the Leap Hand. We report the success rate over 10 attempts for eight objects from the YCB dataset.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
