@@ -1,2 +1,2 @@
-# UniMorphGrasp-website
-https://georgewuzy.github.io/UniMorphGrasp-website/
+# DiffMorphGrasp-website
+https://georgewuzy.github.io/DiffMorphGrasp-website/
